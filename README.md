@@ -1,76 +1,36 @@
-# ActionLayer Command
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Web platform where **Gemini** orchestrates **ActionLayer** web agents via MCP.
+## Getting Started
 
-## Prerequisites
-
-- Node.js 18+
-- [uv](https://docs.astral.sh/uv/) (`uvx` for `actionlayer-mcp`)
-- Optional: Python `actionlayer-sdk` for CLI verification
-
-## Setup
-
-1. Copy environment variables:
+First, run the development server:
 
 ```bash
-cp .env.example .env
-# Add your GEMINI_API_KEY and ACTIONLAYER_API_KEY
-```
-
-2. Install and run:
-
-```bash
-npm install
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Environment variables
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-| Variable | Description |
-|----------|-------------|
-| `GEMINI_API_KEY` | Google AI / Gemini API key |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | Same key (AI SDK alias) |
-| `ACTIONLAYER_API_KEY` | ActionLayer API key |
-| `ACTIONLAYER_API_URL` | Default `https://api.actionlayer.io` |
-| `WEBHOOK_BASE_URL` | Public base URL for webhooks (use ngrok in dev) |
-| `DATABASE_URL` | SQLite path, default `file:./data/app.db` |
-| `AL_MAX_BUDGET_USD` | Max budget cap for tasks (default 25) |
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Webhooks (important)
+## Learn More
 
-ActionLayer sends progress to `{WEBHOOK_BASE_URL}/api/webhooks/actionlayer`.
+To learn more about Next.js, take a look at the following resources:
 
-For real tasks in development:
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-```bash
-ngrok http 3000
-# Set WEBHOOK_BASE_URL=https://YOUR-ID.ngrok-free.app in .env
-```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Restart `npm run dev` after changing `.env`.
+## Deploy on Vercel
 
-## Verify ActionLayer
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-```bash
-pip install actionlayer-sdk
-export ACTIONLAYER_API_KEY=your_key
-export ACTIONLAYER_API_URL=https://api.actionlayer.io
-python -c "from actionlayer_sdk import ActionLayerSyncClient as C; print(C().list_actions().count, 'actions')"
-```
-
-MCP (used by this app):
-
-```bash
-export ACTIONLAYER_API_KEY=your_key
-export ACTIONLAYER_API_URL=https://api.actionlayer.io
-uvx actionlayer-mcp
-```
-
-## Architecture
-
-- **Chat** (`/api/chat`) — Gemini + ActionLayer MCP tools (`uvx actionlayer-mcp`)
-- **Webhooks** (`/api/webhooks/actionlayer`) — task status updates
-- **Tasks** (`/api/tasks`) — poll task board per session
-- **Reply** (`/api/tasks/[id]/reply`) — answer ActionLayer clarification questions
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
